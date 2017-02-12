@@ -1,6 +1,6 @@
 import sys
 from experiment_runner import Application, Controller
-from common import Config
+from common import Config, Storage
 
 
 def test_conf():
@@ -19,6 +19,7 @@ def test_conf():
 
 if __name__ == '__main__':
     conf = test_conf()
-    controller = Controller(conf)
+    storage = Storage("db.json")
+    controller = Controller(conf, storage)
     app = Application(controller, sys.argv)
     sys.exit(app.run())

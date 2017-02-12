@@ -1,7 +1,8 @@
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton,
                              QVBoxLayout, QMessageBox)
 from PyQt5.QtCore import QTimer
-from widgets import ModeSelector, UserDataInput
+from widgets import ModeSelector, UserDataInput, ExperimentWindow
+from controller import REV_MODES
 
 
 class Application(object):
@@ -10,6 +11,7 @@ class Application(object):
     args = None
     mode_select_widget = None
     user_info_widget = None
+    experiment_window = None
 
     _startup_timer = None
 
@@ -46,23 +48,25 @@ class Application(object):
 
     def show_mode_select(self):
         self.mode_select_widget = ModeSelector()
-        self.mode_select_widget.show()
         self.mode_select_widget.finished.connect(self.on_mode_selected)
         self.mode_select_widget.rejected.connect(self.app_close)
+        self.mode_select_widget.show()
 
-    def on_mode_selected(self, selected_mode):
+    def on_mode_selected(self, result):
+        selected_mode = REV_MODES[result]
         print("Result: {}".format(selected_mode))
-        self.controller.experiment_mode(selected_mode)
+        self.controller.set_mode(selected_mode)
         self.ask_user_info()
 
     def ask_user_info(self):
         self.user_info_widget = UserDataInput(self.controller)
-        self.user_info_widget.show()
         self.user_info_widget.accepted.connect(self.experiment_start)
         self.user_info_widget.rejected.connect(self.app_close)
+        self.user_info_widget.show()
 
     def experiment_start(self):
-        pass
+        self.experiment_window = ExperimentWindow(self.controller)
+        self.experiment_window.showFullScreen()
 
     def app_close(self):
         self.app.quit()

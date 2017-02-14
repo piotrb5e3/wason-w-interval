@@ -33,3 +33,9 @@ class Controller(object):
 
     def submit_user_data(self, name, sex, age):
         self.storage.save_user_info(name=name, sex=sex, age=age)
+
+    def is_not_clicking(self):
+        return self.experiment_mode == MODES['NO_FEEDBACK_EXPERIMENT']
+
+    def is_clicking_rhytmicly(self):
+        return self.experiment_mode == MODES['FEEDBACK_EXPERIMENT']

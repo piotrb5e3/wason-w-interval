@@ -26,6 +26,7 @@ class ExperimentWindow(QMainWindow):
         self.current_screen.accepted.connect(self.show_clicking_training_session)
 
     def show_clicking_training_session(self):
-        self.current_screen = TimedIntervalInput(self.controller, 10000)
+        click_controller = self.controller.get_click_training_controller()
+        self.current_screen = TimedIntervalInput(click_controller, 10000)
         self.setCentralWidget(self.current_screen)
         self.current_screen.accepted.connect(self.close)

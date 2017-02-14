@@ -1,8 +1,5 @@
 from tinydb import TinyDB
 
-MEASURING_SESSION = 0
-
-
 class Storage(object):
     db = None
     experiment_data = None
@@ -22,9 +19,6 @@ class Storage(object):
         self.db.purge_table('exp_data')
         self.db.purge_table('user_data')
         self.db.purge_table('clicks')
-
-    def save_benchmark_click(self, time):
-        self.clicks.insert({'expno': MEASURING_SESSION, 'time': time})
 
     def save_experiment_click(self, time, expno):
         self.clicks.insert({'expno': expno, 'time': time})

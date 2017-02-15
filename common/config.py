@@ -13,3 +13,21 @@ class Config(object):
     ig_pre_measuring_session_text = None
     ig_w_selection_instructions_text = None
     thanks_text = None
+
+    card_selections = None
+
+
+class CardSelection(object):
+    number = None
+    is_fixed_position = None
+    text_p1 = None
+    rule = None
+    text_p2 = None
+    instructions_p1 = None
+    instructions_p2 = None
+    cards = None
+
+
+class Card(object):
+    number = None
+    text = None

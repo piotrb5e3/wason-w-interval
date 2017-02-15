@@ -21,11 +21,29 @@ class CardController(object):
         for i in range(4):
             self.card_permutation[self.shuffled_cards[i].number] = i
 
+    def show_all_at_once(self):
+        return False
+
     def start(self):
         self.start_time = time()
 
-    def end(self, pushed):
+    def end(self, is_pushed_list):
         pass
 
     def get_card_texts(self):
         return [card.text for card in self.shuffled_cards]
+
+    def get_i1(self):
+        return self.card_selection.instructions_p1
+
+    def get_i2(self):
+        return self.card_selection.instructions_p2
+
+    def get_t1(self):
+        return self.card_selection.text_p1
+
+    def get_t2(self):
+        return self.card_selection.text_p2
+
+    def get_rule(self):
+        return self.card_selection.rule

@@ -43,4 +43,8 @@ class ExperimentWindow(QMainWindow):
     def show_3rd_instructions(self):
         self.current_screen = Instructions("After clicking measuring session")
         self.setCentralWidget(self.current_screen)
-        self.current_screen.accepted.connect(self.close)
+        self.current_screen.accepted.connect(
+            self.show_all_selection_experiments)
+
+    def show_all_selection_experiments(self):
+        pass

@@ -40,3 +40,9 @@ class ExperimentController(object):
         return ClickController(storage=self.storage, is_recording=False,
                                mode=self.experiment_mode, expno=0,
                                no_clicking_timeout=nc_timeout)
+
+    def get_click_measuring_controller(self):
+        nc_timeout = self.experiment_config.ig_no_clicking_warning_time
+        return ClickController(storage=self.storage, is_recording=True,
+                               mode=self.experiment_mode, expno=0,
+                               no_clicking_timeout=nc_timeout)

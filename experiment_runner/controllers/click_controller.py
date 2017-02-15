@@ -34,8 +34,6 @@ class ClickController(object):
         return (check_delta - self.last_clicks[-1]) > self.no_clicking_timeout
 
     def is_clicking_rhythmically(self):
-        print(
-            "Mode: {}, clicks len: {}".format(self.mode, len(self.last_clicks)))
         if self.mode != 'FEEDBACK_EXPERIMENT':
             return False
         if len(self.last_clicks) < 4:
@@ -46,6 +44,16 @@ class ClickController(object):
 
         avg = sum(diffs) / len(diffs)
         Q = sum([(d - avg) ** 2 for d in diffs])
-        print("Q: {}".format(Q))
 
         return Q < 10000
+
+
+class DummyClickController(object):
+    def on_click(self):
+        pass
+
+    def is_not_clicking(self):
+        return False
+
+    def is_clicking_rhythmically(self):
+        return False

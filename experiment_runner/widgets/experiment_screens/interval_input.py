@@ -9,6 +9,8 @@ non_random_clicking_color = QColor(105, 244, 93)
 
 RIGHT_BUTTON = 0x00000002
 
+S_TO_MS = 1000
+
 
 class IntervalInput(QDialog):
     click_controller = None
@@ -57,7 +59,7 @@ class IntervalInput(QDialog):
 class TimedIntervalInput(IntervalInput):
     timeout_timer = None
 
-    def __init__(self, click_controller, time):
+    def __init__(self, click_controller, time_in_s):
         super().__init__(click_controller)
-        self.timeout_timer = QTimer.singleShot(time, self.accept)
+        self.timeout_timer = QTimer.singleShot(time_in_s * S_TO_MS, self.accept)
         click_controller.start()

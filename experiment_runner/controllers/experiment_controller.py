@@ -67,3 +67,21 @@ class ExperimentController(object):
 
     def has_more_experiments(self):
         return self.exp_ptr < len(self.experiment_config.card_selections)
+
+    def get_click_training_time(self):
+        return self.experiment_config.ig_training_session_time
+
+    def get_click_measuring_time(self):
+        return self.experiment_config.ig_measuring_session_time
+
+    def get_thank_you_text(self):
+        return self.experiment_config.thanks_text
+
+    def get_interval_instructions_text(self):
+        return self.experiment_config.ig_instructions_text
+
+    def get_interval_pre_measurement_text(self):
+        return self.experiment_config.ig_pre_measuring_session_text
+
+    def get_selection_instructions_text(self):
+        return self.experiment_config.ig_w_selection_instructions_text

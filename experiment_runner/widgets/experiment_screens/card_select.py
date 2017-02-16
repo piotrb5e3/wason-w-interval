@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import (QDialog, QFrame, QGridLayout, QHBoxLayout,
-                             QPushButton, QLabel, QWidget)
+                             QPushButton, QLabel, QWidget, QVBoxLayout)
 
 from .interval_input import IntervalInput
 
@@ -48,17 +48,16 @@ class CardSelectScreenOne(QDialog):
         t1box = QLabel(self.card_controller.get_t1())
         rulebox = QLabel(self.card_controller.get_rule())
         t2box = QLabel(self.card_controller.get_t2())
-        grid = QGridLayout()
-        grid.addWidget(t1box, 0, 0, 4, 0)
+        vbox = QVBoxLayout()
+        vbox.addWidget(t1box)
         if self.card_controller.show_all_at_once():
-
-            grid.addWidget(rulebox, 0, 1, 4, 1)
-            grid.addWidget(t2box, 0, 2, 4, 2)
-            grid.addWidget(next, 4, 3)
+            vbox.addWidget(rulebox)
+            vbox.addWidget(t2box)
+            vbox.addWidget(next)
         else:
-            grid.addWidget(next, 4, 1)
+            vbox.addWidget(next)
 
-        frame.setLayout(grid)
+        frame.setLayout(vbox)
 
         box = QHBoxLayout()
         box.addWidget(frame)
@@ -101,20 +100,16 @@ class CardSelectScreenTwo(QDialog):
             self.cards.append(b)
             cards_layout.addWidget(b)
 
-        cards_widget = QWidget()
-        cards_widget.setLayout(cards_layout)
+        vbox = QVBoxLayout()
+        vbox.addWidget(t1box)
+        vbox.addWidget(rulebox)
+        vbox.addWidget(t2box)
+        vbox.addLayout(cards_layout)
+        vbox.addWidget(i1box)
+        vbox.addWidget(i2box)
+        vbox.addWidget(next)
 
-        grid = QGridLayout()
-
-        grid.addWidget(t1box, 0, 0, 4, 0)
-        grid.addWidget(rulebox, 0, 1, 4, 1)
-        grid.addWidget(t2box, 0, 2, 4, 2)
-        grid.addWidget(cards_widget, 0, 3, 4, 3)
-        grid.addWidget(i1box, 0, 4, 4, 4)
-        grid.addWidget(i2box, 0, 5, 4, 5)
-        grid.addWidget(next, 4, 6)
-
-        frame.setLayout(grid)
+        frame.setLayout(vbox)
 
         box = QHBoxLayout()
         box.addWidget(frame)
@@ -124,6 +119,7 @@ class CardSelectScreenTwo(QDialog):
 
         box2 = QHBoxLayout()
         box2.addWidget(interval_input)
+        box2.setContentsMargins(0, 0, 0, 0)
 
         self.setLayout(box2)
 

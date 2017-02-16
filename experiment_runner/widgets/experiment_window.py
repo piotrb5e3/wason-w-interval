@@ -11,9 +11,9 @@ class ExperimentWindow(QWidget):
     def __init__(self, controller):
         super().__init__()
         self.controller = controller
-        self.initUI()
+        self.init_ui()
 
-    def initUI(self):
+    def init_ui(self):
         self.layout = QHBoxLayout()
         self.setLayout(self.layout)
         self.show_initial_instructions()
@@ -26,7 +26,8 @@ class ExperimentWindow(QWidget):
 
     def show_clicking_training_session(self):
         click_controller = self.controller.get_click_training_controller()
-        self.current_screen = TimedIntervalInput(click_controller, 100)
+        self.current_screen = TimedIntervalInput(
+            click_controller, self.controller.get_click_training_time())
         self.layout.addWidget(self.current_screen)
         self.current_screen.accepted.connect(self.show_2nd_instructions)
 
@@ -39,7 +40,8 @@ class ExperimentWindow(QWidget):
 
     def show_clicking_measuring_session(self):
         click_controller = self.controller.get_click_measuring_controller()
-        self.current_screen = TimedIntervalInput(click_controller, 100)
+        self.current_screen = TimedIntervalInput(
+            click_controller, self.controller.get_click_measuring_time())
         self.layout.addWidget(self.current_screen)
         self.current_screen.accepted.connect(self.show_3rd_instructions)
 
@@ -62,5 +64,4 @@ class ExperimentWindow(QWidget):
     def show_thank_you_page(self):
         self.current_screen = Instructions("Thank you page")
         self.layout.addWidget(self.current_screen)
-        self.current_screen.accepted.connect(
-            self.close)
+        self.current_screen.accepted.connect(self.close)

@@ -8,7 +8,6 @@ class CardController(object):
     is_recording = None
     expno = None
     shuffled_cards = None
-    card_permutation = None
     start_time = None
 
     def __init__(self, storage, card_selection, is_recording, expno):
@@ -16,10 +15,8 @@ class CardController(object):
         self.card_selection = card_selection
         self.is_recording = is_recording
         self.expno = expno
-        self.shuffled_cards = shuffle(self.card_selection.cards)
-        self.card_permutation = [1, 2, 3, 4]
-        for i in range(4):
-            self.card_permutation[self.shuffled_cards[i].number] = i
+        self.shuffled_cards = list(self.card_selection.cards)
+        shuffle(self.shuffled_cards)
 
     def show_all_at_once(self):
         return False

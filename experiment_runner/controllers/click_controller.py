@@ -15,10 +15,12 @@ class ClickController(object):
         self.storage = storage
         self.is_recording = is_recording
         self.mode = mode
-        self.start_time = time()
         self.last_clicks.append(0)
         self.expno = expno
         self.no_clicking_timeout = no_clicking_timeout
+
+    def start(self):
+        self.start_time = time()
 
     def on_click(self):
         click_time = time()

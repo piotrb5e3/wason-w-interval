@@ -13,7 +13,7 @@ RIGHT_BUTTON = 0x00000002
 class IntervalInput(QDialog):
     click_controller = None
     timer = None
-    orig_bg_color =None
+    orig_bg_color = None
 
     def __init__(self, click_controller):
         super().__init__()
@@ -60,3 +60,4 @@ class TimedIntervalInput(IntervalInput):
     def __init__(self, click_controller, time):
         super().__init__(click_controller)
         self.timeout_timer = QTimer.singleShot(time, self.accept)
+        click_controller.start()

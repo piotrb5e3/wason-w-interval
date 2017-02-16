@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import (QDialog, QFrame, QGridLayout, QHBoxLayout,
-                             QPushButton, QLabel)
+                             QPushButton, QLabel, QWidget)
 
 from .interval_input import IntervalInput
 
@@ -76,6 +76,8 @@ class CardSelectScreenTwo(QDialog):
         self.card_controller = card_controller
         self.click_controller = click_controller
         self.init_ui()
+        self.click_controller.start()
+        self.card_controller.start()
 
     def init_ui(self):
         frame = QFrame()
@@ -99,12 +101,15 @@ class CardSelectScreenTwo(QDialog):
             self.cards.append(b)
             cards_layout.addWidget(b)
 
+        cards_widget = QWidget()
+        cards_widget.setLayout(cards_layout)
+
         grid = QGridLayout()
 
         grid.addWidget(t1box, 0, 0, 4, 0)
         grid.addWidget(rulebox, 0, 1, 4, 1)
         grid.addWidget(t2box, 0, 2, 4, 2)
-        grid.addChildLayout(cards_layout)
+        grid.addWidget(cards_widget, 0, 3, 4, 3)
         grid.addWidget(i1box, 0, 4, 4, 4)
         grid.addWidget(i2box, 0, 5, 4, 5)
         grid.addWidget(next, 4, 6)
@@ -123,6 +128,6 @@ class CardSelectScreenTwo(QDialog):
         self.setLayout(box2)
 
     def selection_finish(self):
-        is_selected_list = [btn.is_checked() for btn in self.cards]
+        is_selected_list = [btn.isChecked() for btn in self.cards]
         self.card_controller.end(is_selected_list)
         self.accept()

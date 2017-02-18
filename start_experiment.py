@@ -6,9 +6,9 @@ from common import Config, Storage, CardSelection, Card
 def test_conf():
     c = Config()
     c.experiment_name = "Rando"
-    c.ig_training_session_time = 20
-    c.ig_measuring_session_time = 20
-    c.ig_w_selection_training_session_time = 20
+    c.ig_training_session_time = 2
+    c.ig_measuring_session_time = 2
+    c.ig_w_selection_training_session_time = 2
     c.ig_no_clicking_warning_time = 3
     c.ig_instructions_text = "Klikaj"
     c.ig_pre_measuring_session_text = "Klikaj - patrzymy!"

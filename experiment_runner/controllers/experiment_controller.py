@@ -1,3 +1,5 @@
+from random import shuffle
+
 from .click_controller import ClickController
 from .card_controller import CardController
 
@@ -15,11 +17,26 @@ class ExperimentController(object):
     experiment_mode = None
     session_start_time = None
     exp_ptr = None
+    shuffled_card_selections = None
 
     def __init__(self, experiment_config, storage):
         self.experiment_config = experiment_config
         self.storage = storage
         self.exp_ptr = 0
+        self.order_card_selections()
+
+    def order_card_selections(self):
+        self.shuffled_card_selections = []
+        to_shuffle = []
+        for cs in self.experiment_config.card_selections:
+            if cs.is_fixed_position:
+                self.shuffled_card_selections.append(cs)
+            else:
+                to_shuffle.append(cs)
+
+        shuffle(to_shuffle)
+        for cs in to_shuffle:
+            self.shuffled_card_selections.append(cs)
 
     def has_data(self):
         return self.storage.has_data()
@@ -48,11 +65,11 @@ class ExperimentController(object):
                                no_clicking_timeout=nc_timeout)
 
     def get_next_click_card_controllers(self):
-        if self.exp_ptr >= len(self.experiment_config.card_selections):
+        if self.exp_ptr >= len(self.shuffled_card_selections):
             raise Exception("No more experiments")
 
         cardc = CardController(self.storage,
-                               self.experiment_config.card_selections[
+                               self.shuffled_card_selections[
                                    self.exp_ptr],
                                True,
                                self.exp_ptr + 1)

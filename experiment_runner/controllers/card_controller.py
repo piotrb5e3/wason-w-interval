@@ -25,7 +25,21 @@ class CardController(object):
         self.start_time = time()
 
     def end(self, is_pushed_list):
-        pass
+        time_delta = time() - self.start_time
+
+        positions = {}
+        status = {}
+
+        for i in range(4):
+            n = self.shuffled_cards[i].number
+            positions[n] = i
+            status[n] = is_pushed_list[i]
+
+        self.storage.save_selection_results(
+            expno=self.expno,
+            number=self.card_selection.number, time=time_delta,
+            positions=positions, status=status
+        )
 
     def get_card_texts(self):
         return [card.text for card in self.shuffled_cards]

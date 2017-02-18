@@ -9,9 +9,10 @@ class ClickController(object):
     start_time = None
     expno = None
     no_clicking_timeout = None
-    last_clicks = deque()
+    last_clicks = None
 
     def __init__(self, storage, is_recording, mode, expno, no_clicking_timeout):
+        self.last_clicks = deque()
         self.storage = storage
         self.is_recording = is_recording
         self.mode = mode

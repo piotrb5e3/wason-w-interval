@@ -102,8 +102,6 @@ def test_conf():
 
 
 if __name__ == '__main__':
-    conf = test_conf()
     storage = Storage("db.json")
-    controller = ExperimentController(conf, storage)
-    app = Application(controller, sys.argv)
+    app = Application(storage, sys.argv)
     sys.exit(app.run())

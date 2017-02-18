@@ -38,12 +38,6 @@ class ExperimentController(object):
         for cs in to_shuffle:
             self.shuffled_card_selections.append(cs)
 
-    def has_data(self):
-        return self.storage.has_data()
-
-    def purge_data(self):
-        self.storage.purge()
-
     def set_mode(self, mode):
         if mode not in MODES:
             raise ValueError("Incorrect Mode")
@@ -100,5 +94,5 @@ class ExperimentController(object):
     def get_interval_pre_measurement_text(self):
         return self.experiment_config.ig_pre_measuring_session_text
 
-    def get_selection_instructions_text(self):
+    def get_selection_training_instructions_text(self):
         return self.experiment_config.ig_w_selection_instructions_text

@@ -21,8 +21,6 @@ def save_config(filename, conf):
 
 
 class Config(object):
-    experiment_name = None
-
     # Time in seconds
     ig_training_session_time = ''
     ig_measuring_session_time = ''
@@ -39,6 +37,9 @@ class Config(object):
 
     card_selections = None
 
+    def __init__(self):
+        self.card_selections = []
+
 
 class CardSelection(object):
     number = None
@@ -50,10 +51,17 @@ class CardSelection(object):
     instructions_p2 = None
     cards = None
 
+    def __init__(self):
+        self.cards = [Card(n) for n in range(1, 5)]
+
 
 class Card(object):
     number = None
     text = None
+
+    def __init__(self, no):
+        self.number = no
+        self.text = str(no)
 
 
 class ConfigException(BaseException):

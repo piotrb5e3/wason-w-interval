@@ -19,7 +19,8 @@ class ExperimentWindow(QWidget):
         self.show_initial_instructions()
 
     def show_initial_instructions(self):
-        self.current_screen = Instructions("Before clicking training session")
+        self.current_screen = Instructions(
+            self.controller.get_interval_instructions_text())
         self.layout.addWidget(self.current_screen)
         self.current_screen.accepted.connect(
             self.show_clicking_training_session)
@@ -29,11 +30,11 @@ class ExperimentWindow(QWidget):
         self.current_screen = TimedIntervalInput(
             click_controller, self.controller.get_click_training_time())
         self.layout.addWidget(self.current_screen)
-        self.current_screen.accepted.connect(self.show_2nd_instructions)
+        self.current_screen.accepted.connect(self.show_measuring_session_instr)
 
-    def show_2nd_instructions(self):
-        self.current_screen = Instructions("After clicking training session "
-                                           "before clicking measuring session")
+    def show_measuring_session_instr(self):
+        self.current_screen = Instructions(
+            self.controller.get_interval_pre_measurement_text())
         self.layout.addWidget(self.current_screen)
         self.current_screen.accepted.connect(
             self.show_clicking_measuring_session)
@@ -43,13 +44,18 @@ class ExperimentWindow(QWidget):
         self.current_screen = TimedIntervalInput(
             click_controller, self.controller.get_click_measuring_time())
         self.layout.addWidget(self.current_screen)
-        self.current_screen.accepted.connect(self.show_3rd_instructions)
-
-    def show_3rd_instructions(self):
-        self.current_screen = Instructions("After clicking measuring session")
-        self.layout.addWidget(self.current_screen)
         self.current_screen.accepted.connect(
-            self.show_next_selection_experiment)
+            self.show_selection_training_session_instr)
+
+    def show_selection_training_session_instr(self):
+        self.current_screen = Instructions(
+            self.controller.get_selection_training_instructions_text())
+        self.layout.addWidget(self.current_screen)
+        if self.controller.has_more_experiments():
+            self.current_screen.accepted.connect(
+                self.show_next_selection_experiment)
+        else:
+            self.current_screen.accepted.connect(self.show_thank_you_page)
 
     def show_next_selection_experiment(self):
         clickc, cardc = self.controller.get_next_click_card_controllers()
@@ -62,6 +68,6 @@ class ExperimentWindow(QWidget):
             self.current_screen.accepted.connect(self.show_thank_you_page)
 
     def show_thank_you_page(self):
-        self.current_screen = Instructions("Thank you page")
+        self.current_screen = Instructions(self.controller.get_thank_you_text())
         self.layout.addWidget(self.current_screen)
         self.current_screen.accepted.connect(self.close)

@@ -8,7 +8,6 @@ class Config(object):
     ig_no_clicking_warning_time = None
 
     # Texts
-    welcome_text = None
     ig_instructions_text = None
     ig_pre_measuring_session_text = None
     ig_w_selection_instructions_text = None

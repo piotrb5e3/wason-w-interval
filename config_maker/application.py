@@ -1,9 +1,13 @@
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtWidgets import (QApplication, QVBoxLayout, QMainWindow, QTabWidget,
                              QPushButton, QWidget)
 
+
 from controller import ConfigController
-from widgets import NewOrLoad, ExperimentConfigTab, CardSelectionsConfigTab
+from widgets import (NewOrLoad, ExperimentConfigTab, CardSelectionsConfigTab,
+                     InstructionsConfigTab)
+
+ALIGN_RIGHT = 0x0002
 
 
 class Application(object):
@@ -36,25 +40,27 @@ class Application(object):
 
     def open_configurator(self):
         cs_conf = CardSelectionsConfigTab(self.controller)
+        instr_conf = InstructionsConfigTab(self.controller)
         exp_conf = ExperimentConfigTab(self.controller)
 
         tabs = QTabWidget()
-        tabs.addTab(exp_conf, "Experiment configuration")
-        tabs.addTab(cs_conf, "Card selection configuration")
+        tabs.addTab(exp_conf, "Basic")
+        tabs.addTab(instr_conf, "Instructions")
+        tabs.addTab(cs_conf, "Cards")
 
         save = QPushButton("Save")
         save.clicked.connect(self.on_save)
 
         vbox = QVBoxLayout()
         vbox.addWidget(tabs)
-        vbox.addWidget(save)
+        vbox.addWidget(save, alignment=Qt.AlignRight)
 
         wrap = QWidget()
         wrap.setLayout(vbox)
 
         self.main_window = QMainWindow()
         self.main_window.setCentralWidget(wrap)
-        self.main_window.setGeometry(300, 200, 500, 500)
+        self.main_window.setGeometry(300, 200, 500, 700)
         self.main_window.show()
 
     def on_save(self):

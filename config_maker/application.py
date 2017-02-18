@@ -1,7 +1,6 @@
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtWidgets import (QApplication, QVBoxLayout, QMainWindow, QTabWidget,
-                             QPushButton, QWidget)
-
+                             QPushButton, QWidget, QFileDialog)
 
 from controller import ConfigController
 from widgets import (NewOrLoad, ExperimentConfigTab, CardSelectionsConfigTab,
@@ -64,4 +63,21 @@ class Application(object):
         self.main_window.show()
 
     def on_save(self):
-        pass
+        errors = self.controller.get_errors_list()
+        if errors:
+            pass
+        else:
+            fname = QFileDialog.getSaveFileName(
+                self.main_window,
+                'Save as',
+                filter='Experiment Configuration (*.conf)')
+
+            fname = fname[0]
+
+            if not fname:
+                return
+
+            if not fname.endswith('.conf'):
+                fname += '.conf'
+            if self.controller.save(fname):
+                self.app.quit()

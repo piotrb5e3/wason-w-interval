@@ -1,3 +1,5 @@
+from pickle import dump, load
+
 from config import Config
 
 
@@ -12,7 +14,14 @@ class ConfigController(object):
         self.conf = Config()
 
     def conf_with_filename(self, filename):
-        raise Exception("Not implemented")
+        try:
+            f = open(filename, mode='rb')
+            self.conf = load(f)
+            f.close()
+            return True
+        except OSError as e:
+            print('Exception: ' + str(e))
+            return False
 
     def get_training_session_time(self):
         return self.conf.ig_training_session_time
@@ -40,7 +49,7 @@ class ConfigController(object):
 
     def set_measuring_session_time(self, time_str):
         try:
-            self.conf.iig_measuring_session_time = int(time_str)
+            self.conf.ig_measuring_session_time = int(time_str)
         except ValueError:
             pass
 
@@ -86,8 +95,18 @@ class ConfigController(object):
     def set_thanks_text(self, txt):
         self.conf.thanks_text = txt
 
+    def get_errors_list(self):
+        return []
 
-
+    def save(self, filename):
+        try:
+            f = open(filename, mode='wb')
+            dump(self.conf, f)
+            f.close()
+            return True
+        except OSError as e:
+            print('Exception: ' + str(e))
+            return False
 
 
 class CardSelectionConfigController(object):

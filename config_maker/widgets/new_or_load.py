@@ -33,8 +33,11 @@ class NewOrLoad(QDialog):
             self,
             'Open file',
             filter='Experiment Configuration (*.conf)')
-        try:
-            self.controller.conf_with_filename(fname)
+        if not fname[0]:
+            self.reject()
+            return
+        fname = fname[0]
+        if self.controller.conf_with_filename(fname):
             self.accept()
-        except ControllerException:
+        else:
             self.reject()

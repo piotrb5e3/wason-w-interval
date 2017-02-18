@@ -13,8 +13,10 @@ def test_conf():
     c.ig_instructions_text = "Klikaj"
     c.ig_pre_measuring_session_text = "Klikaj - patrzymy!"
     c.ig_w_selection_instructions_text = "Klikaj i klikaj"
+    c.pre_experiment_text = 'Zaczynamy eksperyment!'
     c.thanks_text = "Dzięki"
     c.card_selections = []
+
 
     cs = CardSelection()
     cs.number = 0

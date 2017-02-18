@@ -1,6 +1,4 @@
-from pickle import dump, load
-
-from config import Config
+from config import Config, load_config, save_config, ConfigException
 
 
 class ConfigController(object):
@@ -15,12 +13,9 @@ class ConfigController(object):
 
     def conf_with_filename(self, filename):
         try:
-            f = open(filename, mode='rb')
-            self.conf = load(f)
-            f.close()
+            self.conf = load_config(filename)
             return True
-        except OSError as e:
-            print('Exception: ' + str(e))
+        except ConfigException:
             return False
 
     def get_training_session_time(self):
@@ -100,12 +95,9 @@ class ConfigController(object):
 
     def save(self, filename):
         try:
-            f = open(filename, mode='wb')
-            dump(self.conf, f)
-            f.close()
+            save_config(filename, self.conf)
             return True
-        except OSError as e:
-            print('Exception: ' + str(e))
+        except ConfigException:
             return False
 
 

@@ -1,3 +1,25 @@
+from pickle import dump, load
+
+
+def load_config(filename):
+    try:
+        f = open(filename, mode='rb')
+        conf = load(f)
+        f.close()
+        return conf
+    except OSError:
+        raise ConfigException
+
+
+def save_config(filename, conf):
+    try:
+        f = open(filename, mode='wb')
+        dump(conf, f)
+        f.close()
+    except OSError:
+        raise ConfigException
+
+
 class Config(object):
     experiment_name = None
 
@@ -32,3 +54,7 @@ class CardSelection(object):
 class Card(object):
     number = None
     text = None
+
+
+class ConfigException(BaseException):
+    pass

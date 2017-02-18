@@ -15,7 +15,7 @@ class ExperimentConfigTab(QWidget):
 
     def init_ui(self):
         training_time = QLineEdit()
-        numeric_validator = QRegExpValidator(INTEGER_REGEXP,training_time)
+        numeric_validator = QRegExpValidator(INTEGER_REGEXP, training_time)
         training_time.setValidator(numeric_validator)
         training_time.setText(str(self.controller.get_training_session_time()))
         training_time.textEdited.connect(
@@ -24,7 +24,7 @@ class ExperimentConfigTab(QWidget):
             "Interval generation training session length (sec):")
 
         measuring_time = QLineEdit()
-        numeric_validator = QRegExpValidator(INTEGER_REGEXP,measuring_time)
+        numeric_validator = QRegExpValidator(INTEGER_REGEXP, measuring_time)
         measuring_time.setValidator(numeric_validator)
         measuring_time.setText(
             str(self.controller.get_measuring_session_time()))
@@ -34,7 +34,8 @@ class ExperimentConfigTab(QWidget):
             "Interval generation measuring session length (sec):")
 
         selection_training_time = QLineEdit()
-        numeric_validator = QRegExpValidator(INTEGER_REGEXP,selection_training_time)
+        numeric_validator = QRegExpValidator(INTEGER_REGEXP,
+                                             selection_training_time)
         selection_training_time.setValidator(numeric_validator)
         selection_training_time.setText(
             str(self.controller.get_selection_training_session_time()))
@@ -46,7 +47,7 @@ class ExperimentConfigTab(QWidget):
         )
 
         nc_timeout = QLineEdit()
-        numeric_validator = QRegExpValidator(INTEGER_REGEXP,nc_timeout)
+        numeric_validator = QRegExpValidator(INTEGER_REGEXP, nc_timeout)
         nc_timeout.setValidator(numeric_validator)
         nc_timeout.setText(str(self.controller.get_no_clicking_warning_time()))
         nc_timeout.textEdited.connect(

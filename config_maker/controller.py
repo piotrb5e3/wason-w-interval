@@ -50,6 +50,45 @@ class ConfigController(object):
         except ValueError:
             pass
 
+    def get_ig_instr(self):
+        return self.conf.ig_instructions_text
+
+    def get_ig_measuring_instr(self):
+        return self.conf.ig_pre_measuring_session_text
+
+    def get_ig_w_cs_training_instr(self):
+        return self.conf.ig_w_selection_instructions_text
+
+    def get_pre_exp_instr(self):
+        return self.conf.pre_experiment_text
+
+    def get_pre_exp_w_click_instr(self):
+        return self.conf.pre_experiment_w_click_text
+
+    def get_thanks_text(self):
+        return self.conf.thanks_text
+
+    def set_ig_instr(self, txt):
+        self.conf.ig_instructions_text = txt
+
+    def set_ig_measuring_instr(self, txt):
+        self.conf.ig_pre_measuring_session_text = txt
+
+    def set_ig_w_cs_training_instr(self, txt):
+        self.conf.ig_w_selection_instructions_text = txt
+
+    def set_pre_exp_instr(self, txt):
+        self.conf.pre_experiment_text = txt
+
+    def set_pre_exp_w_click_instr(self, txt):
+        self.conf.pre_experiment_w_click_text = txt
+
+    def set_thanks_text(self, txt):
+        self.conf.thanks_text = txt
+
+
+
+
 
 class CardSelectionConfigController(object):
     cs = None

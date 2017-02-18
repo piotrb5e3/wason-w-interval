@@ -12,6 +12,7 @@ class Config(object):
     ig_pre_measuring_session_text = ''
     ig_w_selection_instructions_text = ''
     pre_experiment_text = ''
+    pre_experiment_w_click_text = ''
     thanks_text = ''
 
     card_selections = None

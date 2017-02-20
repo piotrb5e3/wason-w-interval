@@ -18,6 +18,8 @@ class Instructions(UnrejectableDialog):
         frame = QFrame()
         frame.setFrameStyle(QFrame.Panel)
         frame.setLineWidth(1)
+        frame.setFixedSize(800, 600)
+
         self.next = QPushButton("Continue")
         self.next.clicked.connect(self.accept)
 
@@ -31,5 +33,4 @@ class Instructions(UnrejectableDialog):
 
         box = QHBoxLayout()
         box.addWidget(frame)
-        box.setContentsMargins(300, 100, 300, 100)
         self.setLayout(box)

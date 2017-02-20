@@ -24,6 +24,7 @@ class IntervalInput(UnrejectableDialog):
     def mousePressEvent(self, event):
         if event.button() == Qt.RightButton:
             self.click_controller.on_click()
+            event.accept()
 
     def check_if_should_warn(self):
         if self.click_controller.is_not_clicking():

@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import (QFrame, QHBoxLayout, QPushButton, QLabel,
                              QVBoxLayout)
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QTimer, Qt, QMargins
+from PyQt5.QtGui import QPalette, QColor, QFont, QPainter
 
 from .interval_input import IntervalInput
 
@@ -46,6 +47,7 @@ class CardSelectScreenOne(UnrejectableDialog):
         frame = QFrame()
         frame.setFrameStyle(QFrame.Panel)
         frame.setLineWidth(1)
+        frame.setFixedSize(800, 600)
 
         next = QPushButton("Continue")
         next.clicked.connect(self.accept)
@@ -66,7 +68,6 @@ class CardSelectScreenOne(UnrejectableDialog):
 
         box = QHBoxLayout()
         box.addWidget(frame)
-        box.setContentsMargins(300, 100, 300, 100)
         self.setLayout(box)
 
 
@@ -87,6 +88,7 @@ class CardSelectScreenTwo(UnrejectableDialog):
         frame = QFrame()
         frame.setFrameStyle(QFrame.Panel)
         frame.setLineWidth(1)
+        frame.setFixedSize(800, 600)
 
         next = QPushButton("Continue")
         next.clicked.connect(self.selection_finish)
@@ -100,8 +102,7 @@ class CardSelectScreenTwo(UnrejectableDialog):
         cards_layout = QHBoxLayout()
         self.cards = []
         for t in self.card_controller.get_card_texts():
-            b = QPushButton(t)
-            b.setCheckable(True)
+            b = CardButton(t)
             self.cards.append(b)
             cards_layout.addWidget(b)
 
@@ -118,7 +119,6 @@ class CardSelectScreenTwo(UnrejectableDialog):
 
         box = QHBoxLayout()
         box.addWidget(frame)
-        box.setContentsMargins(300, 100, 300, 100)
         interval_input = IntervalInput(self.click_controller)
         interval_input.setLayout(box)
 
@@ -150,6 +150,7 @@ class CardSelectionTraining(UnrejectableDialog):
         frame = QFrame()
         frame.setFrameStyle(QFrame.Panel)
         frame.setLineWidth(1)
+        frame.setFixedSize(800, 600)
 
         t1box = QLabel("")
         rulebox = QLabel("")
@@ -159,8 +160,7 @@ class CardSelectionTraining(UnrejectableDialog):
 
         cards_layout = QHBoxLayout()
         for i in range(4):
-            b = QPushButton("")
-            b.setCheckable(True)
+            b = CardButton("")
             cards_layout.addWidget(b)
 
         vbox = QVBoxLayout()
@@ -175,7 +175,6 @@ class CardSelectionTraining(UnrejectableDialog):
 
         box = QHBoxLayout()
         box.addWidget(frame)
-        box.setContentsMargins(300, 100, 300, 100)
         interval_input = IntervalInput(self.click_controller)
         interval_input.setLayout(box)
 
@@ -184,3 +183,44 @@ class CardSelectionTraining(UnrejectableDialog):
         box2.setContentsMargins(0, 0, 0, 0)
 
         self.setLayout(box2)
+
+
+class CardButton(QPushButton):
+    normal_palette = None
+    pushed_palette = None
+    txt = None
+
+    def __init__(self, text):
+        super().__init__("")
+        self.txt = text
+        self.setCheckable(True)
+        self.setMinimumHeight(120)
+        self.normal_palette = self.palette()
+        self.pushed_palette = QPalette(self.normal_palette)
+        self.pushed_palette.setColor(QPalette.Button, QColor(144, 151, 249))
+        self.toggled.connect(self.on_toggle)
+
+    def on_toggle(self, is_toggled):
+        if is_toggled:
+            self.setPalette(self.pushed_palette)
+        else:
+            self.setPalette(self.normal_palette)
+        self.update()
+
+    def paintEvent(self, event):
+        super().paintEvent(event)
+        qp = QPainter()
+        qp.begin(self)
+        self.draw_text(event, qp)
+        qp.end()
+
+    def draw_text(self, event, qp):
+        draw_rect = event.rect().marginsRemoved(QMargins(5, 5, 5, 5))
+        qp.setPen(QColor(0, 0, 0))
+        qp.setFont(QFont('Serif', 11))
+        qp.drawText(draw_rect, Qt.TextWordWrap | Qt.AlignLeft, self.txt)
+
+    def mousePressEvent(self, event):
+        super().mousePressEvent(event)
+        if event.button() == Qt.RightButton:
+            event.accept()

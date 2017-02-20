@@ -97,7 +97,7 @@ class ExperimentWindow(QWidget):
         if self.can_close:
             event.accept()
             return
-        
+
         reply = QMessageBox.question(self, 'Message',
                                      "Are you sure to quit?", QMessageBox.Yes |
                                      QMessageBox.No, QMessageBox.No)

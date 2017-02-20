@@ -100,6 +100,9 @@ class ConfigController(object):
         except ConfigException:
             return False
 
+    def get_cs_controllers(self):
+        return self.cs_controllers
+
 
 class CardSelectionConfigController(object):
     cs = None

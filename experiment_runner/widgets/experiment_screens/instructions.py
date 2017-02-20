@@ -1,7 +1,7 @@
-from PyQt5.QtWidgets import (QLabel, QPushButton,
-                             QHBoxLayout, QFrame, QGridLayout
-                             )
+from PyQt5.QtWidgets import (QPushButton, QVBoxLayout, QFrame)
+from PyQt5.QtCore import Qt
 from dialog import UnrejectableDialog
+from .text_field import WrappingTextField
 
 
 class Instructions(UnrejectableDialog):
@@ -23,14 +23,14 @@ class Instructions(UnrejectableDialog):
         self.next = QPushButton("Continue")
         self.next.clicked.connect(self.accept)
 
-        self.textBox = QLabel(self.text)
+        self.textBox = WrappingTextField(text=self.text, font_size=11)
 
-        grid = QGridLayout()
-        grid.addWidget(self.textBox, 0, 0, 4, 0)
-        grid.addWidget(self.next, 4, 1)
+        vbox = QVBoxLayout()
+        vbox.addWidget(self.textBox)
+        vbox.addWidget(self.next, alignment=Qt.AlignRight)
 
-        frame.setLayout(grid)
+        frame.setLayout(vbox)
 
-        box = QHBoxLayout()
-        box.addWidget(frame)
+        box = QVBoxLayout()
+        box.addWidget(frame, alignment=Qt.AlignCenter)
         self.setLayout(box)

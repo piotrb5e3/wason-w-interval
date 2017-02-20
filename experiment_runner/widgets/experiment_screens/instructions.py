@@ -1,9 +1,10 @@
 from PyQt5.QtWidgets import (QLabel, QPushButton,
-                             QHBoxLayout, QDialog, QFrame, QGridLayout
+                             QHBoxLayout, QFrame, QGridLayout
                              )
+from dialog import UnrejectableDialog
 
 
-class Instructions(QDialog):
+class Instructions(UnrejectableDialog):
     text = None
     textBox = None
     next = None

@@ -58,3 +58,32 @@ class CardController(object):
 
     def get_rule(self):
         return self.card_selection.rule
+
+
+class DummyCardController(object):
+    def get_card_texts(self):
+        return ["" for i in range(4)]
+
+    def get_i1(self):
+        return ""
+
+    def get_i2(self):
+        return ""
+
+    def get_t1(self):
+        return ""
+
+    def get_t2(self):
+        return ""
+
+    def get_rule(self):
+        return ""
+
+    def show_all_at_once(self):
+        return True
+
+    def start(self):
+        pass
+
+    def end(self, _):
+        pass

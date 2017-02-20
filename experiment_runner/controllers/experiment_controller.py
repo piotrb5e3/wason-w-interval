@@ -85,6 +85,9 @@ class ExperimentController(object):
     def get_click_measuring_time(self):
         return self.experiment_config.ig_measuring_session_time
 
+    def get_selection_training_time(self):
+        return self.experiment_config.ig_w_selection_training_session_time
+
     def get_thank_you_text(self):
         return self.experiment_config.thanks_text
 
@@ -96,3 +99,6 @@ class ExperimentController(object):
 
     def get_selection_training_instructions_text(self):
         return self.experiment_config.ig_w_selection_instructions_text
+
+    def get_main_experiment_instructions_text(self):
+        return self.experiment_config.pre_experiment_text

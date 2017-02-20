@@ -1,18 +1,14 @@
-from PyQt5.QtWidgets import (QLabel, QPushButton,
-                             QHBoxLayout, QDialog, QWidget, QGridLayout
-                             )
-from PyQt5.QtGui import QPalette, QColor, QMouseEvent
-from PyQt5.QtCore import QTimer
+from PyQt5.QtGui import QPalette, QColor
+from PyQt5.QtCore import QTimer, Qt
+from dialog import UnrejectableDialog
 
 no_clicking_color = QColor(252, 55, 65)
 non_random_clicking_color = QColor(105, 244, 93)
 
-RIGHT_BUTTON = 0x00000002
-
 S_TO_MS = 1000
 
 
-class IntervalInput(QDialog):
+class IntervalInput(UnrejectableDialog):
     click_controller = None
     timer = None
     orig_bg_color = None
@@ -26,7 +22,7 @@ class IntervalInput(QDialog):
         self.orig_bg_color = self.palette().color(QPalette.Window)
 
     def mousePressEvent(self, event):
-        if event.button() == RIGHT_BUTTON:
+        if event.button() == Qt.RightButton:
             self.click_controller.on_click()
 
     def check_if_should_warn(self):

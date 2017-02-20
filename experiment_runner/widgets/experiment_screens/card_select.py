@@ -1,10 +1,15 @@
-from PyQt5.QtWidgets import (QDialog, QFrame, QGridLayout, QHBoxLayout,
-                             QPushButton, QLabel, QWidget, QVBoxLayout)
+from PyQt5.QtWidgets import (QFrame, QHBoxLayout, QPushButton, QLabel,
+                             QVBoxLayout)
+from PyQt5.QtCore import QTimer
 
 from .interval_input import IntervalInput
 
+from dialog import UnrejectableDialog
 
-class CardSelect(QDialog):
+S_TO_MS = 1000
+
+
+class CardSelect(UnrejectableDialog):
     card_controller = None
     click_controller = None
     layout = None
@@ -29,7 +34,7 @@ class CardSelect(QDialog):
         self.layout.addWidget(screen2)
 
 
-class CardSelectScreenOne(QDialog):
+class CardSelectScreenOne(UnrejectableDialog):
     card_controller = None
 
     def __init__(self, card_controller):
@@ -65,7 +70,7 @@ class CardSelectScreenOne(QDialog):
         self.setLayout(box)
 
 
-class CardSelectScreenTwo(QDialog):
+class CardSelectScreenTwo(UnrejectableDialog):
     card_controller = None
     click_controller = None
     cards = None
@@ -127,3 +132,55 @@ class CardSelectScreenTwo(QDialog):
         is_selected_list = [btn.isChecked() for btn in self.cards]
         self.card_controller.end(is_selected_list)
         self.accept()
+
+
+class CardSelectionTraining(UnrejectableDialog):
+    click_controller = None
+    timeout = None
+
+    def __init__(self, click_controller, timeout_in_sec):
+        super().__init__()
+        self.click_controller = click_controller
+        self.click_controller.start()
+        self.timeout = QTimer.singleShot(timeout_in_sec * S_TO_MS,
+                                         self.accept)
+        self.init_ui()
+
+    def init_ui(self):
+        frame = QFrame()
+        frame.setFrameStyle(QFrame.Panel)
+        frame.setLineWidth(1)
+
+        t1box = QLabel("")
+        rulebox = QLabel("")
+        t2box = QLabel("")
+        i1box = QLabel("")
+        i2box = QLabel("")
+
+        cards_layout = QHBoxLayout()
+        for i in range(4):
+            b = QPushButton("")
+            b.setCheckable(True)
+            cards_layout.addWidget(b)
+
+        vbox = QVBoxLayout()
+        vbox.addWidget(t1box)
+        vbox.addWidget(rulebox)
+        vbox.addWidget(t2box)
+        vbox.addLayout(cards_layout)
+        vbox.addWidget(i1box)
+        vbox.addWidget(i2box)
+
+        frame.setLayout(vbox)
+
+        box = QHBoxLayout()
+        box.addWidget(frame)
+        box.setContentsMargins(300, 100, 300, 100)
+        interval_input = IntervalInput(self.click_controller)
+        interval_input.setLayout(box)
+
+        box2 = QHBoxLayout()
+        box2.addWidget(interval_input)
+        box2.setContentsMargins(0, 0, 0, 0)
+
+        self.setLayout(box2)

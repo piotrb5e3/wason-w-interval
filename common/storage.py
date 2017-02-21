@@ -1,4 +1,4 @@
-from tinydb import TinyDB
+from tinydb import TinyDB, Query
 
 
 class Storage(object):
@@ -58,6 +58,10 @@ class Storage(object):
             }
         )
 
+    def get_cs_result(self, expno):
+        r = self.selections.search(Query().expno == expno)
+        return r[0]
+
     def save_user_info(self, name, sex, age):
         self.user_data.insert_multiple([
             {'name': name},
@@ -65,8 +69,46 @@ class Storage(object):
             {'age': age}
         ])
 
+    def save_experiment_config(self, config, mode):
+        card_selections = [
+            {
+                'number': cs.number,
+                'is_fixed_position': cs.is_fixed_position,
+                'text_p1': cs.text_p1,
+                'rule': cs.rule,
+                'text_p2': cs.text_p2,
+                'instructions': cs.instructions,
+                'cards': [c.text for c in cs.cards],
+            } for cs in config.card_selections]
+
+        self.experiment_data.insert({
+            'mode': mode,
+            'ig_training_session_time': config.ig_training_session_time,
+            'ig_measuring_session_time': config.ig_measuring_session_time,
+            'ig_w_selection_training_session_time': config.ig_w_selection_training_session_time,
+            'ig_no_clicking_warning_time': config.ig_no_clicking_warning_time,
+
+            'welcome_text': config.welcome_text,
+            'ig_instructions_text': config.ig_instructions_text,
+            'ig_pre_measuring_session_text': config.ig_pre_measuring_session_text,
+            'ig_w_selection_instructions_text': config.ig_w_selection_instructions_text,
+            'pre_experiment_text': config.pre_experiment_text,
+            'thanks_text': config.thanks_text,
+            'cs_instructions_short': config.cs_instructions_short,
+            'card_selections': card_selections,
+        })
+
+    def get_experiment_config(self):
+        return self.experiment_data.all()[0]
+
     def get_user_info(self):
         return self.user_data.all()
+
+    def get_clicks_from(self, expno):
+        return self.clicks.search(Query().expno == expno)
+
+    def get_toggles_from(self, expno):
+        return self.button_toggles.search(Query().expno == expno)
 
     def save_completed_experiment(self):
         self.integrity.insert({'complete': True})

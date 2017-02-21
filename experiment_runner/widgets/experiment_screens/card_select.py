@@ -95,6 +95,9 @@ class CardSelectScreenTwo(UnrejectableDialog):
         self.card_controller.solving_start()
 
     def init_ui(self):
+        def on_click_btn_no(n):
+            return lambda: self.card_controller.on_click(n)
+
         frame = QFrame()
         frame.setFrameStyle(QFrame.Panel)
         frame.setLineWidth(1)
@@ -111,8 +114,10 @@ class CardSelectScreenTwo(UnrejectableDialog):
 
         cards_layout = QHBoxLayout()
         self.cards = []
-        for t in self.card_controller.get_card_texts():
-            b = CardButton(t)
+        texts = self.card_controller.get_card_texts()
+        for i in range(4):
+            b = CardButton(texts[i])
+            b.clicked.connect(on_click_btn_no(i + 1))
             self.cards.append(b)
             cards_layout.addWidget(b)
 

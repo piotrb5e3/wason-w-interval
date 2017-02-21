@@ -7,6 +7,7 @@ class Storage(object):
     user_data = None
     clicks = None
     selections = None
+    button_toggles = None
 
     def __init__(self, filename):
         self.db = TinyDB(filename)
@@ -14,6 +15,7 @@ class Storage(object):
         self.user_data = self.db.table('user_data')
         self.clicks = self.db.table('clicks')
         self.selections = self.db.table('selections')
+        self.button_toggles = self.db.table('toggles')
 
     def has_data(self):
         return len(self.user_data) > 0
@@ -23,9 +25,14 @@ class Storage(object):
         self.db.purge_table('user_data')
         self.db.purge_table('clicks')
         self.db.purge_table('selections')
+        self.db.purge_table('toggles')
 
     def save_experiment_click(self, time, expno):
         self.clicks.insert({'expno': expno, 'time': time})
+
+    def save_card_click(self, expno, time, button_number):
+        self.button_toggles.insert(
+            {'expno': expno, 'time': time, 'button': button_number})
 
     #
     # Positions and status are dictionaries:

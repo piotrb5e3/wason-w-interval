@@ -31,6 +31,11 @@ class CardController(object):
     def solving_start(self):
         self.solving_start_time = time() - self.start_time
 
+    def on_click(self, button_number):
+        time_delta = time() - self.start_time
+        self.storage.save_card_click(expno=self.expno, time=time_delta,
+                                     button_number=button_number)
+
     def end(self, is_pushed_list):
         time_delta = time() - self.start_time
 

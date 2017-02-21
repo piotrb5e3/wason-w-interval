@@ -16,14 +16,14 @@ class CSTextEditTab(QWidget):
 
         vbox = QVBoxLayout()
 
-        txt_label = QLabel("Task text:")
+        txt_label = QLabel("Task text (required):")
         vbox.addWidget(txt_label)
         txt = QTextEdit()
         txt.setText(self.controller.get_task_text())
         connect(txt, self.controller.set_task_text)
         vbox.addWidget(txt)
 
-        rule_label = QLabel("Rule text:")
+        rule_label = QLabel("Rule text (required):")
         vbox.addWidget(rule_label)
         rule = QLineEdit()
         rule.setText(self.controller.get_rule())

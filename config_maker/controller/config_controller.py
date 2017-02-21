@@ -19,6 +19,10 @@ class ConfigController(object):
         except ConfigException:
             return False
 
+    def get_edit_cs_controller(self, n):
+        return CardSelectionConfigController(self.conf.card_selections[n], self,
+                                             pos=n)
+
     def get_add_cs_controller(self):
         cs = CardSelection()
         return CardSelectionConfigController(cs, self)
@@ -111,6 +115,9 @@ class ConfigController(object):
 
     def add_cs(self, cs):
         self.conf.card_selections.append(cs)
+
+    def update_cs(self, cs, pos):
+        self.conf.card_selections[pos] = cs
 
 
 class ControllerException(BaseException):

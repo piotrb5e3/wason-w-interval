@@ -29,10 +29,10 @@ class CardSelectionEdit(QDialog):
         self.setLayout(vbox)
 
     def accept_clicked(self):
-        if not self.controller.get_rule():
+        if not (self.controller.get_rule() and self.controller.get_task_text()):
             self.msg = QMessageBox(self)
-            self.msg.setText("No rule defined")
-            self.msg.setBaseSize(300, 200)
+            self.msg.setText("No rule or task text defined")
+            self.msg.setFixedSize(200, 100)
             self.msg.show()
             return
 

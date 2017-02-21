@@ -1,13 +1,18 @@
 class CardSelectionConfigController(object):
     cs = None
     controller = None
+    pos = None
 
-    def __init__(self, cs, controller):
+    def __init__(self, cs, controller, pos=-1):
         self.cs = cs
         self.controller = controller
+        self.pos = pos
 
     def save(self):
-        self.controller.add_cs(self.cs)
+        if self.pos < 0:
+            self.controller.add_cs(self.cs)
+        else:
+            self.controller.update_cs(self.cs, self.pos)
 
     def get_nth_card_text(self, n):
         return self.cs.cards[n].text

@@ -8,6 +8,7 @@ class Storage(object):
     clicks = None
     selections = None
     button_toggles = None
+    integrity = None
 
     def __init__(self, filename):
         self.db = TinyDB(filename)
@@ -16,9 +17,13 @@ class Storage(object):
         self.clicks = self.db.table('clicks')
         self.selections = self.db.table('selections')
         self.button_toggles = self.db.table('toggles')
+        self.integrity = self.db.table('integrity')
 
     def has_data(self):
         return len(self.user_data) > 0
+
+    def has_complete_data(self):
+        return len(self.integrity) > 0
 
     def purge(self):
         self.db.purge_table('exp_data')
@@ -26,6 +31,7 @@ class Storage(object):
         self.db.purge_table('clicks')
         self.db.purge_table('selections')
         self.db.purge_table('toggles')
+        self.db.purge_table('integrity')
 
     def save_experiment_click(self, time, expno):
         self.clicks.insert({'expno': expno, 'time': time})
@@ -61,3 +67,6 @@ class Storage(object):
 
     def get_user_info(self):
         return self.user_data.all()
+
+    def save_completed_experiment(self):
+        self.integrity.insert({'complete': True})

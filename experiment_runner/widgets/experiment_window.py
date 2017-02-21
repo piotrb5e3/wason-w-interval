@@ -100,6 +100,7 @@ class ExperimentWindow(QWidget):
 
     def end_experiment(self):
         self.can_close = True
+        self.controller.finish_experiment()
         self.close()
 
     def closeEvent(self, event):

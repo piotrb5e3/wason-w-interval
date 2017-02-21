@@ -46,6 +46,9 @@ class ExperimentController(object):
     def get_mode(self):
         return self.experiment_mode
 
+    def finish_experiment(self):
+        self.storage.save_completed_experiment()
+
     def submit_user_data(self, name, sex, age):
         self.storage.save_user_info(name=name, sex=sex, age=age)
 

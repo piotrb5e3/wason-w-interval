@@ -57,6 +57,7 @@ class CardSelectionsConfigTab(QWidget):
         vbox.addWidget(self.list)
         vbox.addLayout(hbox)
         vbox.addLayout(hbox2)
+        vbox.addStretch()
 
         self.reload_items()
 

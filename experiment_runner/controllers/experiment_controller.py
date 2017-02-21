@@ -43,6 +43,9 @@ class ExperimentController(object):
             raise ValueError("Incorrect Mode")
         self.experiment_mode = mode
 
+    def get_mode(self):
+        return self.experiment_mode
+
     def submit_user_data(self, name, sex, age):
         self.storage.save_user_info(name=name, sex=sex, age=age)
 
@@ -62,22 +65,27 @@ class ExperimentController(object):
         if self.exp_ptr >= len(self.shuffled_card_selections):
             raise Exception("No more experiments")
 
-        cardc = CardController(self.storage,
-                               self.shuffled_card_selections[
-                                   self.exp_ptr],
-                               True,
-                               self.exp_ptr + 1)
+        cardc = CardController(
+            storage=self.storage,
+            card_selection=self.shuffled_card_selections[self.exp_ptr],
+            expno=self.exp_ptr + 1,
+            controller=self)
 
-        clickc = ClickController(self.storage,
-                                 True,
-                                 self.experiment_mode,
-                                 self.exp_ptr + 1,
-                                 self.experiment_config.ig_no_clicking_warning_time)
+        clickc = ClickController(
+            storage=self.storage,
+            is_recording=True,
+            mode=self.experiment_mode,
+            expno=self.exp_ptr + 1,
+            no_clicking_timeout=self.experiment_config.ig_no_clicking_warning_time)
+
         self.exp_ptr += 1
         return clickc, cardc
 
     def has_more_experiments(self):
         return self.exp_ptr < len(self.experiment_config.card_selections)
+
+    def get_welcome_text(self):
+        return self.experiment_config.welcome_text
 
     def get_click_training_time(self):
         return self.experiment_config.ig_training_session_time
@@ -102,3 +110,6 @@ class ExperimentController(object):
 
     def get_main_experiment_instructions_text(self):
         return self.experiment_config.pre_experiment_text
+
+    def get_short_selection_instructions(self):
+        return self.experiment_config.cs_instructions_short

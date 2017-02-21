@@ -32,12 +32,14 @@ class Storage(object):
     # postitions[1:4] \in [0:3]
     # status[1:4] \in {True, False}
     #
-    def save_selection_results(self, expno, number, time, positions, status):
+    def save_selection_results(self, expno, number, solving_start_time,
+                               total_time, positions, status):
         self.selections.insert(
             {
                 'expno': expno,
                 'number': number,
-                'time': time,
+                'solving_start_time': solving_start_time,
+                'total_time': total_time,
                 'positions': positions,
                 'status': status,
             }

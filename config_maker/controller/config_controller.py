@@ -63,6 +63,9 @@ class ConfigController(object):
         except ValueError:
             pass
 
+    def get_welcome_text(self):
+        return self.conf.welcome_text
+
     def get_ig_instr(self):
         return self.conf.ig_instructions_text
 
@@ -75,11 +78,14 @@ class ConfigController(object):
     def get_pre_exp_instr(self):
         return self.conf.pre_experiment_text
 
-    def get_pre_exp_w_click_instr(self):
-        return self.conf.pre_experiment_w_click_text
+    def get_short_instr(self):
+        return self.conf.cs_instructions_short
 
     def get_thanks_text(self):
         return self.conf.thanks_text
+
+    def set_welcome_text(self, txt):
+        self.conf.welcome_text = txt
 
     def set_ig_instr(self, txt):
         self.conf.ig_instructions_text = txt
@@ -93,8 +99,8 @@ class ConfigController(object):
     def set_pre_exp_instr(self, txt):
         self.conf.pre_experiment_text = txt
 
-    def set_pre_exp_w_click_instr(self, txt):
-        self.conf.pre_experiment_w_click_text = txt
+    def set_short_instr(self, txt):
+        self.conf.cs_instructions_short = txt
 
     def set_thanks_text(self, txt):
         self.conf.thanks_text = txt

@@ -9,10 +9,12 @@ class ExperimentWindow(QWidget):
     current_screen = None
     layout = None
     can_close = False
+    expno = None
 
     def __init__(self, controller):
         super().__init__()
         self.controller = controller
+        self.expno = 1
         self.init_ui()
 
     def init_ui(self):
@@ -70,9 +72,16 @@ class ExperimentWindow(QWidget):
         self.layout.addWidget(self.current_screen)
         if self.controller.has_more_experiments():
             self.current_screen.accepted.connect(
-                self.show_next_selection_experiment)
+                self.show_break_screen)
         else:
             self.current_screen.accepted.connect(self.show_thank_you_page)
+
+    def show_break_screen(self):
+        self.current_screen = Instructions("Experiment {}".format(self.expno))
+        self.layout.addWidget(self.current_screen)
+        self.current_screen.accepted.connect(
+            self.show_next_selection_experiment)
+        self.expno += 1
 
     def show_next_selection_experiment(self):
         clickc, cardc = self.controller.get_next_click_card_controllers()
@@ -80,7 +89,7 @@ class ExperimentWindow(QWidget):
         self.layout.addWidget(self.current_screen)
         if self.controller.has_more_experiments():
             self.current_screen.accepted.connect(
-                self.show_next_selection_experiment)
+                self.show_break_screen)
         else:
             self.current_screen.accepted.connect(self.show_thank_you_page)
 

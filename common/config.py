@@ -28,12 +28,13 @@ class Config(object):
     ig_no_clicking_warning_time = ''
 
     # Texts
+    welcome_text = ''
     ig_instructions_text = ''
     ig_pre_measuring_session_text = ''
     ig_w_selection_instructions_text = ''
     pre_experiment_text = ''
-    pre_experiment_w_click_text = ''
     thanks_text = ''
+    cs_instructions_short = ''
 
     card_selections = None
 

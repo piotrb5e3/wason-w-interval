@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QTextEdit, QLabel, QVBoxLayout
+from PyQt5.QtWidgets import QWidget, QTextEdit, QLabel, QVBoxLayout, QLineEdit
 
 
 class InstructionsConfigTab(QWidget):
@@ -13,6 +13,11 @@ class InstructionsConfigTab(QWidget):
         def connect(text_edit, c_fun):
             text_edit.textChanged.connect(
                 lambda: c_fun(text_edit.toPlainText()))
+
+        welcome = QLineEdit()
+        welcome.setText(self.controller.get_welcome_text())
+        welcome.textEdited.connect(self.controller.set_welcome_text)
+        welcome_label = QLabel("Welcome text:")
 
         ig_instructions = QTextEdit()
         ig_instructions.setText(self.controller.get_ig_instr())
@@ -36,16 +41,13 @@ class InstructionsConfigTab(QWidget):
         main_exp_instructions.setText(self.controller.get_pre_exp_instr())
         connect(main_exp_instructions, self.controller.set_pre_exp_instr)
         main_exp_instructions_label = QLabel(
-            "Before the main experiment in control group "
-            "(Also shown in pilot mode):")
+            "Before the main experiment (Also shown in pilot mode):")
 
-        main_exp_click_instructions = QTextEdit()
-        main_exp_click_instructions.setText(
-            self.controller.get_pre_exp_w_click_instr())
-        connect(main_exp_click_instructions,
-                self.controller.set_pre_exp_w_click_instr)
-        main_exp_click_instructions_label = QLabel(
-            "Before the main experiment in experiment groups:")
+        short_instr = QLineEdit()
+        short_instr.setText(self.controller.get_short_instr())
+        short_instr.textEdited.connect(self.controller.set_short_instr)
+        short_instr_label = QLabel(
+            "Short instructions (shown below cards on the selection screen):")
 
         thanks_text = QTextEdit()
         thanks_text.setText(self.controller.get_thanks_text())
@@ -53,20 +55,23 @@ class InstructionsConfigTab(QWidget):
         thanks_text_label = QLabel("Thank-you text:")
 
         vbox = QVBoxLayout()
+        vbox.addWidget(welcome_label)
+        vbox.addWidget(welcome)
+        vbox.addSpacing(5)
         vbox.addWidget(ig_instructions_label)
         vbox.addWidget(ig_instructions)
         vbox.addSpacing(5)
         vbox.addWidget(ig_pre_measuring_label)
         vbox.addWidget(ig_pre_measuring)
-        vbox.addSpacing(15)
+        vbox.addSpacing(5)
         vbox.addWidget(igns_instructions_label)
         vbox.addWidget(igns_instructions)
         vbox.addSpacing(5)
         vbox.addWidget(main_exp_instructions_label)
         vbox.addWidget(main_exp_instructions)
         vbox.addSpacing(5)
-        vbox.addWidget(main_exp_click_instructions_label)
-        vbox.addWidget(main_exp_click_instructions)
+        vbox.addWidget(short_instr_label)
+        vbox.addWidget(short_instr)
         vbox.addSpacing(5)
         vbox.addWidget(thanks_text_label)
         vbox.addWidget(thanks_text)

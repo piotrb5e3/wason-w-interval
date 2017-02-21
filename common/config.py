@@ -61,7 +61,7 @@ class Card(object):
 
     def __init__(self, no):
         self.number = no
-        self.text = str(no)
+        self.text = ""
 
 
 class ConfigException(BaseException):

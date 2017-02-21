@@ -1,9 +1,9 @@
-from config import Config, load_config, save_config, ConfigException
+from config import (Config, CardSelection,
+                    load_config, save_config, ConfigException)
 
 
 class ConfigController(object):
     conf = None
-    cs_controllers = None
 
     def __init__(self):
         self.cs_controllers = []
@@ -17,6 +17,10 @@ class ConfigController(object):
             return True
         except ConfigException:
             return False
+
+    def get_add_cs_controller(self):
+        cs = CardSelection()
+        return CardSelectionConfigController(cs, self)
 
     def get_training_session_time(self):
         return self.conf.ig_training_session_time
@@ -101,14 +105,35 @@ class ConfigController(object):
             return False
 
     def get_cs_controllers(self):
-        return self.cs_controllers
+        return [CardSelectionConfigController(cs, self) for cs in
+                self.conf.card_selections]
+
+    def add_cs(self, cs):
+        self.conf.card_selections.append(cs)
 
 
 class CardSelectionConfigController(object):
     cs = None
+    controller = None
 
-    def __init__(self, cs):
+    def __init__(self, cs, controller):
         self.cs = cs
+        self.controller = controller
+
+    def get_nth_card_text(self, n):
+        return self.cs.cards[n].text
+
+    def set_nth_card_text(self, n, text):
+        self.cs.cards[n].text = text
+
+    def save(self):
+        self.controller.add_cs(self.cs)
+
+    def get_rule(self):
+        return self.cs.rule
+
+    def is_fixed_position(self):
+        return self.cs.is_fixed_position
 
 
 class ControllerException(BaseException):

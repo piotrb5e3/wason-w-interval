@@ -52,6 +52,7 @@ class CardSelectionsConfigTab(QWidget):
             self.list_items.append(list_item)
 
     def show_add_dialog(self):
-        self.current_editor = CardSelectionEdit()
+        ctrl = self.controller.get_add_cs_controller()
+        self.current_editor = CardSelectionEdit(ctrl)
         self.current_editor.accepted.connect(self.reload_items)
         self.current_editor.show()

@@ -9,6 +9,9 @@ class CardSelectionsConfigTab(QWidget):
     list = None
     list_items = None
     edit = None
+    up = None
+    down = None
+    delete = None
     current_editor = None
 
     def __init__(self, controller):
@@ -29,13 +32,31 @@ class CardSelectionsConfigTab(QWidget):
         self.edit.setEnabled(False)
         self.edit.clicked.connect(self.show_edit_dialog)
 
+        self.delete = QPushButton("Delete")
+        self.delete.setEnabled(False)
+        self.delete.clicked.connect(self.delete_selected)
+
+        self.up = QPushButton("Move up")
+        self.up.setEnabled(False)
+        self.up.clicked.connect(self.move_up)
+
+        self.down = QPushButton("Move Down")
+        self.down.setEnabled(False)
+        self.down.clicked.connect(self.move_down)
+
         hbox = QHBoxLayout()
         hbox.addWidget(add)
         hbox.addWidget(self.edit)
+        hbox.addWidget(self.delete)
+
+        hbox2 = QHBoxLayout()
+        hbox2.addWidget(self.up)
+        hbox2.addWidget(self.down)
 
         vbox = QVBoxLayout()
         vbox.addWidget(self.list)
         vbox.addLayout(hbox)
+        vbox.addLayout(hbox2)
 
         self.reload_items()
 
@@ -61,7 +82,7 @@ class CardSelectionsConfigTab(QWidget):
         self.current_editor.show()
 
     def show_edit_dialog(self):
-        n = 0
+        n = -1
         for i in range(len(self.list_items)):
             if self.list_items[i].isSelected():
                 n = i
@@ -71,8 +92,41 @@ class CardSelectionsConfigTab(QWidget):
         self.current_editor.accepted.connect(self.reload_items)
         self.current_editor.show()
 
+    def delete_selected(self):
+        n = -1
+        for i in range(len(self.list_items)):
+            if self.list_items[i].isSelected():
+                n = i
+                break
+        self.controller.delete_nth_cs(n)
+        self.reload_items()
+
+    def move_up(self):
+        n = -1
+        for i in range(len(self.list_items)):
+            if self.list_items[i].isSelected():
+                n = i
+                break
+        self.controller.move_up(n)
+        self.reload_items()
+
+    def move_down(self):
+        n = -1
+        for i in range(len(self.list_items)):
+            if self.list_items[i].isSelected():
+                n = i
+                break
+        self.controller.move_down(n)
+        self.reload_items()
+
     def update_edit_button_state(self):
         if len(self.list.selectedItems()) > 0:
             self.edit.setEnabled(True)
+            self.delete.setEnabled(True)
+            self.up.setEnabled(True)
+            self.down.setEnabled(True)
         else:
             self.edit.setEnabled(False)
+            self.delete.setEnabled(False)
+            self.up.setEnabled(False)
+            self.down.setEnabled(False)

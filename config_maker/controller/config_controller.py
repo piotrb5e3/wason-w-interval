@@ -119,6 +119,21 @@ class ConfigController(object):
     def update_cs(self, cs, pos):
         self.conf.card_selections[pos] = cs
 
+    def delete_nth_cs(self, n):
+        del self.conf.card_selections[n]
+
+    def move_up(self, n):
+        if n > 0:
+            tmp = self.conf.card_selections[n - 1]
+            self.conf.card_selections[n - 1] = self.conf.card_selections[n]
+            self.conf.card_selections[n] = tmp
+
+    def move_down(self, n):
+        if n < len(self.conf.card_selections) - 1:
+            tmp = self.conf.card_selections[n + 1]
+            self.conf.card_selections[n + 1] = self.conf.card_selections[n]
+            self.conf.card_selections[n] = tmp
+
 
 class ControllerException(BaseException):
     pass

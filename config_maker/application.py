@@ -2,7 +2,7 @@ from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtWidgets import (QApplication, QVBoxLayout, QMainWindow, QTabWidget,
                              QPushButton, QWidget, QFileDialog)
 
-from controller import ConfigController
+from controller.config_controller import ConfigController
 from widgets import (NewOrLoad, ExperimentConfigTab, CardSelectionsConfigTab,
                      InstructionsConfigTab)
 

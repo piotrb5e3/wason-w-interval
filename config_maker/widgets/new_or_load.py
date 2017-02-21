@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QDialog, QPushButton, QVBoxLayout, QFileDialog
 
-from controller import ControllerException
+from controller.config_controller import ControllerException
 
 
 class NewOrLoad(QDialog):

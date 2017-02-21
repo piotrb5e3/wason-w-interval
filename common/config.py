@@ -47,8 +47,7 @@ class CardSelection(object):
     text_p1 = None
     rule = None
     text_p2 = None
-    instructions_p1 = None
-    instructions_p2 = None
+    instructions = None
     cards = None
 
     def __init__(self):

@@ -48,4 +48,4 @@ class CardSelectionConfigController(object):
         return self.cs.is_fixed_position
 
     def set_is_fixed_position(self, val):
-        self.cs.is_fixed_position = val
+        self.cs.is_fixed_position = bool(val)

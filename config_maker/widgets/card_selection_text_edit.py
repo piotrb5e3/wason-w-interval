@@ -1,4 +1,6 @@
-from PyQt5.QtWidgets import (QWidget, QLabel, QTextEdit, QVBoxLayout, QLineEdit)
+from PyQt5.QtWidgets import (QWidget, QLabel, QTextEdit, QVBoxLayout, QLineEdit,
+                             QCheckBox)
+from PyQt5.QtCore import Qt
 
 
 class CSTextEditTab(QWidget):
@@ -43,5 +45,11 @@ class CSTextEditTab(QWidget):
         instr.setText(self.controller.get_instructions())
         connect(instr, self.controller.set_instructions)
         vbox.addWidget(instr)
+
+        is_training = QCheckBox("Training exercise. (Shown at the beginning)")
+        vbox.addWidget(is_training)
+        is_fixed_pos = self.controller.is_fixed_position()
+        is_training.setCheckState(Qt.Checked if is_fixed_pos else Qt.Unchecked)
+        is_training.stateChanged.connect(self.controller.set_is_fixed_position)
 
         self.setLayout(vbox)

@@ -109,11 +109,16 @@ class ConfigController(object):
         return []
 
     def save(self, filename):
+        self.fix_cs_numeration()
         try:
             save_config(filename, self.conf)
             return True
         except ConfigException:
             return False
+
+    def fix_cs_numeration(self):
+        for i in range(len(self.conf.card_selections)):
+            self.conf.card_selections[i].number = i + 1
 
     def get_cs_controllers(self):
         return [CardSelectionConfigController(cs, self) for cs in

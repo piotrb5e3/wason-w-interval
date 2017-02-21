@@ -44,7 +44,7 @@ class Config(object):
 
 class CardSelection(object):
     number = None
-    is_fixed_position = None
+    is_fixed_position = False
     text_p1 = None
     rule = None
     text_p2 = None

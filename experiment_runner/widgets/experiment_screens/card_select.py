@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import (QFrame, QHBoxLayout, QPushButton, QLabel,
-                             QVBoxLayout)
+                             QVBoxLayout, QWidget)
 from PyQt5.QtCore import QTimer, Qt, QMargins
 from PyQt5.QtGui import QPalette, QColor, QFont, QPainter
 
@@ -41,6 +41,7 @@ class CardSelectScreenOne(UnrejectableDialog):
     def __init__(self, card_controller):
         super().__init__()
         self.card_controller = card_controller
+        self.card_controller.start()
         self.init_ui()
 
     def init_ui(self):
@@ -53,17 +54,26 @@ class CardSelectScreenOne(UnrejectableDialog):
         next.clicked.connect(self.accept)
 
         t1box = QLabel(self.card_controller.get_t1())
-        rulebox = QLabel(self.card_controller.get_rule())
-        t2box = QLabel(self.card_controller.get_t2())
+        card_placeholder = QWidget()
+        card_placeholder.setMinimumHeight(120)
+        selection_specific_instr_placeholder = QLabel("")
+        short_instr_placeholder = QLabel("")
+
+        if self.card_controller.show_all_at_once():
+            rulebox = QLabel(self.card_controller.get_rule())
+            t2box = QLabel(self.card_controller.get_t2())
+        else:
+            rulebox = QLabel("")
+            t2box = QLabel("")
+
         vbox = QVBoxLayout()
         vbox.addWidget(t1box)
-        if self.card_controller.show_all_at_once():
-            vbox.addWidget(rulebox)
-            vbox.addWidget(t2box)
-            vbox.addWidget(next)
-        else:
-            vbox.addWidget(next)
-
+        vbox.addWidget(rulebox)
+        vbox.addWidget(t2box)
+        vbox.addWidget(card_placeholder)
+        vbox.addWidget(selection_specific_instr_placeholder)
+        vbox.addWidget(short_instr_placeholder)
+        vbox.addWidget(next, alignment=Qt.AlignRight)
         frame.setLayout(vbox)
 
         box = QHBoxLayout()
@@ -82,7 +92,7 @@ class CardSelectScreenTwo(UnrejectableDialog):
         self.click_controller = click_controller
         self.init_ui()
         self.click_controller.start()
-        self.card_controller.start()
+        self.card_controller.solving_start()
 
     def init_ui(self):
         frame = QFrame()
@@ -113,7 +123,7 @@ class CardSelectScreenTwo(UnrejectableDialog):
         vbox.addLayout(cards_layout)
         vbox.addWidget(i1box)
         vbox.addWidget(i2box)
-        vbox.addWidget(next)
+        vbox.addWidget(next, alignment=Qt.AlignRight)
 
         frame.setLayout(vbox)
 

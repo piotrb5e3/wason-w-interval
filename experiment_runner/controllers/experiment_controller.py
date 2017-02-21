@@ -1,6 +1,6 @@
 from random import shuffle
 
-from .click_controller import ClickController
+from .click_controller import ClickController, DummyClickController
 from .card_controller import CardController
 
 MODES = [
@@ -71,12 +71,15 @@ class ExperimentController(object):
             expno=self.exp_ptr + 1,
             controller=self)
 
-        clickc = ClickController(
-            storage=self.storage,
-            is_recording=True,
-            mode=self.experiment_mode,
-            expno=self.exp_ptr + 1,
-            no_clicking_timeout=self.experiment_config.ig_no_clicking_warning_time)
+        if self.experiment_mode in ('CONTROL_GROUP', 'PILOT'):
+            clickc = DummyClickController()
+        else:
+            clickc = ClickController(
+                storage=self.storage,
+                is_recording=True,
+                mode=self.experiment_mode,
+                expno=self.exp_ptr + 1,
+                no_clicking_timeout=self.experiment_config.ig_no_clicking_warning_time)
 
         self.exp_ptr += 1
         return clickc, cardc

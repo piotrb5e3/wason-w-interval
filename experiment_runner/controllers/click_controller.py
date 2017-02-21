@@ -52,6 +52,9 @@ class ClickController(object):
 
 
 class DummyClickController(object):
+    def start(self):
+        pass
+
     def on_click(self):
         pass
 

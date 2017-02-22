@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import (QApplication, QMessageBox, QFileDialog)
 
-from .widgets import ModeSelector, UserDataInput, ExperimentWindow
+from .widgets import ModeSelector, ExperimentWindow
 
 from config import load_config, ConfigException
 
@@ -72,15 +72,9 @@ class Application(object):
 
     def show_mode_select(self):
         self.mode_select_widget = ModeSelector(self.controller)
-        self.mode_select_widget.finished.connect(self.ask_user_info)
+        self.mode_select_widget.finished.connect(self.experiment_start)
         self.mode_select_widget.rejected.connect(self.app_close)
         self.mode_select_widget.show()
-
-    def ask_user_info(self):
-        self.user_info_widget = UserDataInput(self.controller)
-        self.user_info_widget.accepted.connect(self.experiment_start)
-        self.user_info_widget.rejected.connect(self.app_close)
-        self.user_info_widget.show()
 
     def experiment_start(self):
         self.experiment_window = ExperimentWindow(self.controller)

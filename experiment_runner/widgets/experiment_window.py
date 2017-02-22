@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import (QWidget, QHBoxLayout, QMessageBox)
 
 from .experiment_screens import (Instructions, TimedIntervalInput, CardSelect,
-                                 CardSelectionTraining)
+                                 CardSelectionTraining, UserDataInput)
 
 
 class ExperimentWindow(QWidget):
@@ -20,9 +20,26 @@ class ExperimentWindow(QWidget):
     def init_ui(self):
         self.layout = QHBoxLayout()
         self.setLayout(self.layout)
-        self.show_initial_instructions()
+        self.show_welcome_text()
 
-    def show_initial_instructions(self):
+    def show_welcome_text(self):
+        self.current_screen = Instructions(
+            self.controller.get_welcome_text())
+        self.layout.addWidget(self.current_screen)
+        self.current_screen.accepted.connect(
+            self.show_user_info_screen)
+
+    def show_user_info_screen(self):
+        self.current_screen = UserDataInput(self.controller)
+        self.layout.addWidget(self.current_screen)
+        if self.controller.get_mode == 'PILOT':
+            self.current_screen.accepted.connect(
+                self.show_main_experiment_instructions)
+        else:
+            self.current_screen.accepted.connect(
+                self.show_training_session_instructions)
+
+    def show_training_session_instructions(self):
         self.current_screen = Instructions(
             self.controller.get_interval_instructions_text())
         self.layout.addWidget(self.current_screen)

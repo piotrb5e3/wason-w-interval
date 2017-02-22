@@ -1,12 +1,11 @@
 from PyQt5.QtWidgets import (QLabel, QLineEdit, QPushButton,
-                             QGridLayout, QVBoxLayout, QMessageBox, QDialog,
-                             QComboBox
-                             )
-from PyQt5.QtCore import QRegExp
+                             QVBoxLayout, QFrame, QComboBox)
+from PyQt5.QtCore import QRegExp, Qt
 from PyQt5.QtGui import QRegExpValidator
+from dialog import UnrejectableDialog
 
 
-class UserDataInput(QDialog):
+class UserDataInput(UnrejectableDialog):
     controller = None
     name = None
     age = None
@@ -19,11 +18,16 @@ class UserDataInput(QDialog):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('User information')
+        frame = QFrame()
+        frame.setFrameStyle(QFrame.Panel)
+        frame.setLineWidth(1)
+        frame.setFixedSize(800, 600)
 
-        name_label = QLabel('Name')
-        sex_label = QLabel('Sex')
-        age_label = QLabel('Age')
+        header = QLabel('User information')
+
+        name_label = QLabel('Name or alias:')
+        sex_label = QLabel('Sex:')
+        age_label = QLabel('Age:')
 
         self.name = QLineEdit()
         name_validator = QRegExpValidator(QRegExp('[a-zA-Z].*'), self.name)
@@ -38,7 +42,7 @@ class UserDataInput(QDialog):
         age_validator = QRegExpValidator(QRegExp('[1-9][0-9]*'), self.age)
         self.age.setValidator(age_validator)
 
-        self.next = QPushButton("OK")
+        self.next = QPushButton("Continue")
         self.next.setEnabled(False)
 
         self.name.textChanged.connect(self.on_change)
@@ -46,22 +50,22 @@ class UserDataInput(QDialog):
         self.age.textChanged.connect(self.on_change)
         self.next.pressed.connect(self.on_submit)
 
-        grid = QGridLayout()
-        grid.setSpacing(10)
-        grid.addWidget(name_label, 0, 0)
-        grid.addWidget(self.name, 0, 1)
-        grid.addWidget(sex_label, 1, 0)
-        grid.addWidget(self.sex, 1, 1)
-        grid.addWidget(age_label, 2, 0)
-        grid.addWidget(self.age, 2, 1)
-
         vbox = QVBoxLayout()
-        vbox.setSpacing(0)
-        vbox.addLayout(grid)
-        vbox.addWidget(self.next)
+        vbox.addStretch()
+        vbox.addWidget(header, alignment=Qt.AlignCenter)
+        vbox.addWidget(name_label)
+        vbox.addWidget(self.name)
+        vbox.addWidget(sex_label)
+        vbox.addWidget(self.sex)
+        vbox.addWidget(age_label)
+        vbox.addWidget(self.age)
+        vbox.addStretch()
+        vbox.addWidget(self.next, alignment=Qt.AlignRight)
 
-        self.setLayout(vbox)
-        self.setGeometry(300, 300, 280, 170)
+        frame.setLayout(vbox)
+        framebox = QVBoxLayout()
+        framebox.addWidget(frame, alignment=Qt.AlignCenter)
+        self.setLayout(framebox)
 
     def on_change(self):
         name, sex, age = self.extract_user_info()
@@ -95,18 +99,3 @@ class UserDataInput(QDialog):
         except ValueError:
             return None, None, 0
         return name, sex, age
-
-    def closeEvent(self, event):
-        reply = QMessageBox.question(self, 'Message',
-                                     "Are you sure to quit?",
-                                     QMessageBox.Yes |
-                                     QMessageBox.No, QMessageBox.No)
-
-        if reply == QMessageBox.Yes:
-            event.accept()
-            self.reject()
-        else:
-            event.ignore()
-
-    class UserDataException(Exception):
-        pass

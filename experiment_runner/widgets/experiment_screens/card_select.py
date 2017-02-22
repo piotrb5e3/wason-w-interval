@@ -6,6 +6,7 @@ from PyQt5.QtGui import QPalette, QColor, QFont, QPainter
 from .interval_input import IntervalInput
 
 from dialog import UnrejectableDialog
+from .text_field import WrappingTextField
 
 S_TO_MS = 1000
 
@@ -48,23 +49,23 @@ class CardSelectScreenOne(UnrejectableDialog):
         frame = QFrame()
         frame.setFrameStyle(QFrame.Panel)
         frame.setLineWidth(1)
-        frame.setFixedSize(800, 600)
+        frame.setFixedSize(1200, 700)
 
         next = QPushButton("Continue")
         next.clicked.connect(self.accept)
 
-        t1box = QLabel(self.card_controller.get_t1())
+        t1box = WrappingTextField(self.card_controller.get_t1())
         card_placeholder = QWidget()
         card_placeholder.setMinimumHeight(120)
-        selection_specific_instr_placeholder = QLabel("")
-        short_instr_placeholder = QLabel("")
+        selection_specific_instr_placeholder = WrappingTextField("")
+        short_instr_placeholder = WrappingTextField("")
 
         if self.card_controller.show_all_at_once():
-            rulebox = QLabel(self.card_controller.get_rule())
-            t2box = QLabel(self.card_controller.get_t2())
+            rulebox = WrappingTextField(self.card_controller.get_rule())
+            t2box = WrappingTextField(self.card_controller.get_t2())
         else:
-            rulebox = QLabel("")
-            t2box = QLabel("")
+            rulebox = WrappingTextField("")
+            t2box = WrappingTextField("")
 
         vbox = QVBoxLayout()
         vbox.addWidget(t1box)
@@ -101,16 +102,16 @@ class CardSelectScreenTwo(UnrejectableDialog):
         frame = QFrame()
         frame.setFrameStyle(QFrame.Panel)
         frame.setLineWidth(1)
-        frame.setFixedSize(800, 600)
+        frame.setFixedSize(1200, 700)
 
         next = QPushButton("Continue")
         next.clicked.connect(self.selection_finish)
 
-        t1box = QLabel(self.card_controller.get_t1())
-        rulebox = QLabel(self.card_controller.get_rule())
-        t2box = QLabel(self.card_controller.get_t2())
-        i1box = QLabel(self.card_controller.get_i1())
-        i2box = QLabel(self.card_controller.get_i2())
+        t1box = WrappingTextField(self.card_controller.get_t1())
+        rulebox = WrappingTextField(self.card_controller.get_rule())
+        t2box = WrappingTextField(self.card_controller.get_t2())
+        i1box = WrappingTextField(self.card_controller.get_i1())
+        i2box = WrappingTextField(self.card_controller.get_i2())
 
         cards_layout = QHBoxLayout()
         self.cards = []
@@ -165,7 +166,7 @@ class CardSelectionTraining(UnrejectableDialog):
         frame = QFrame()
         frame.setFrameStyle(QFrame.Panel)
         frame.setLineWidth(1)
-        frame.setFixedSize(800, 600)
+        frame.setFixedSize(1200, 700)
 
         t1box = QLabel("")
         rulebox = QLabel("")

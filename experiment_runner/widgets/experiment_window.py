@@ -32,7 +32,7 @@ class ExperimentWindow(QWidget):
     def show_user_info_screen(self):
         self.current_screen = UserDataInput(self.controller)
         self.layout.addWidget(self.current_screen)
-        if self.controller.get_mode == 'PILOT':
+        if self.controller.is_pilot_mode():
             self.current_screen.accepted.connect(
                 self.show_main_experiment_instructions)
         else:

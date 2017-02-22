@@ -50,6 +50,9 @@ class ExperimentController(object):
     def get_mode(self):
         return self.experiment_mode
 
+    def is_pilot_mode(self):
+        return self.experiment_mode == 'PILOT'
+
     def finish_experiment(self):
         self.save_config_and_mode()
         self.storage.save_completed_experiment()

@@ -21,7 +21,7 @@ class UserDataInput(UnrejectableDialog):
         frame = QFrame()
         frame.setFrameStyle(QFrame.Panel)
         frame.setLineWidth(1)
-        frame.setFixedSize(800, 600)
+        frame.setFixedSize(1200, 700)
 
         header = QLabel('User information')
 

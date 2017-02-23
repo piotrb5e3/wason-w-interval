@@ -47,7 +47,7 @@ class Application(object):
         tabs.addTab(instr_conf, "Instructions")
         tabs.addTab(cs_conf, "Cards")
 
-        save = QPushButton("Save")
+        save = QPushButton("Save and exit")
         save.clicked.connect(self.on_save)
 
         vbox = QVBoxLayout()

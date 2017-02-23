@@ -30,7 +30,7 @@ class UserDataInput(UnrejectableDialog):
         age_label = QLabel('Age:')
 
         self.name = QLineEdit()
-        name_validator = QRegExpValidator(QRegExp('[a-zA-Z].*'), self.name)
+        name_validator = QRegExpValidator(QRegExp('.+'), self.name)
         self.name.setValidator(name_validator)
 
         self.sex = QComboBox()

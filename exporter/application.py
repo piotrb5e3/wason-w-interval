@@ -51,6 +51,7 @@ class Application(object):
             self.msg = QMessageBox(None)
             self.msg.setText("Export finished successfully!")
             self.msg.show()
+            self.storage.purge()
         except ExportException as e:
             self.msg = QMessageBox(None)
             self.msg.setText("An error occurred during export:")

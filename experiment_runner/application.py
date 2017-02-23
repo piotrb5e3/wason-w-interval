@@ -29,9 +29,10 @@ class Application(object):
         return self.app.exec_()
 
     def on_started(self):
-        if self.storage.has_data():
+        if self.storage.has_complete_data():
             self.show_purge_data_question()
         else:
+            self.storage.purge()
             self.select_conf_file()
 
     def show_purge_data_question(self):

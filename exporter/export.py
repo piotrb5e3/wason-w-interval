@@ -17,7 +17,7 @@ class ExportException(Exception):
 EXPERIMENT_SETTINGS_HEADERS = [
     'experiment mode',
     'interval generation training session length',
-    'interval generation measuring session length'
+    'interval generation measuring session length',
     'card selection training session length',
     'interval generation no-clicking timeout', ]
 CARD_SELECTION_DESCRIPTION_HEADERS = [
